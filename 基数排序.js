@@ -1,12 +1,5 @@
 // len表示数组的长度，digit表示数组的随机数是0到几位
-function creatArr(len, digit) {
-  var a = [];
-  for (var i = 0; i < len; i++) {
-    //随机生成0~10^-1digit 范围的的数字，并放入数组
-    a.push(~~(Math.random() * Math.pow(10, digit)))
-  }
-  return a;
-}
+const baseFun = require("./baseFun.js")
 
 // 得到数组中最大数的位数
 function getMaxDigit(arr) {
@@ -31,7 +24,22 @@ function initArr(arr) {
   return newArr;
 }
 
-function radixSort(arr, digit) {
+function getPreArr(arr) {
+  var storageArr = [];
+  var numLen = 0;
+  for (var i = 0, iLen = arr.length; i < iLen; i++) {
+    for (var j = 0, jLen = arr[i].length; j < jLen; j++) {
+      if (arr[i][j] !== 0) {
+        storageArr[numLen] = arr[i][j]
+        numLen++
+      }
+    }
+  }
+  return storageArr
+}
+
+function radixSort(arr) {
+  var digit = getMaxDigit(arr)
   var storageArr = new Array(10)
   storageArr = initArr(storageArr)
   var item = 0
@@ -55,30 +63,14 @@ function radixSort(arr, digit) {
       }
     }
   }
+  storageArr = getPreArr(storageArr)
   return storageArr
 }
 
-function getPreArr(arr) {
-  var storageArr = [];
-  var numLen = 0;
-  for (var i = 0, iLen = arr.length; i < iLen; i++) {
-    for (var j = 0, jLen = arr[i].length; j < jLen; j++) {
-      if (arr[i][j] !== 0) {
-        storageArr[numLen] = arr[i][j]
-        numLen++
-      }
-    }
-  }
-  return storageArr
-}
-var arrLen = 100, arrDigits = 4;
+
+var arrLen = 10, arrDigits = 4;
 // 随机创建一个长度为arrLen, 最大位数是4位数的数组
-var arr = creatArr(arrLen, arrDigits);
-var digit = getMaxDigit(arr);
-
-var data1 = Date.now()
-arr = radixSort(arr, digit)
-var data2 = Date.now()
-arr = getPreArr(arr)
+var arr = baseFun.createArr(arrLen, arrDigits)
 console.log(arr.join(", "))
-console.log(data2 - data1)
+arr = radixSort(arr);
+console.log(arr.join(", "))
