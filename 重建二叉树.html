@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+    // 例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。
+    function TreeNode(x) {
+      this.val = x;
+      this.left = null;
+      this.right = null;
+    }
+
+    // 前序遍历结果
+    let pre = [1, 2, 4, 7, 3, 5, 6, 8]
+    // 中序遍历结果
+    let vin = [4, 2, 7, 1, 5, 3, 8, 6]
+    //          1
+    //     2          3
+    // 4          5       6
+    //   7              8
+    function reConstructBinaryTree(pre, vin) {
+      let newNode = new TreeNode(pre[0])
+      let leftVin = vin.slice(0, vin.indexOf(pre[0]))
+      let leftPre = pre.slice(1, leftVin.length + 1)
+      let rightVin = vin.slice(vin.indexOf(pre[0]) + 1, vin.length)
+      let rightPre = pre.slice(leftVin.length + 1, pre.length)
+      resetNode(newNode,leftPre, leftVin, 'left')
+      resetNode(newNode,rightPre, rightVin, 'right')
+      return newNode
+    }
+    /**
+     * 核心函数，用于结点的挂载
+     * 思路：分治
+     * @param {objecy} parent结点
+     * @param {array} 前序遍历结果
+     * @param {array} 中序遍历结果
+     * @param {string} 结点挂载方向
+     */
+    function resetNode(parent, pre, vin, direct) {
+      let newNode = new TreeNode(pre[0])
+      parent[direct] = newNode
+      let leftVin = vin.slice(0, vin.indexOf(pre[0]))
+      let leftPre = pre.slice(1, leftVin.length + 1)
+      let rightVin = vin.slice(vin.indexOf(pre[0]) + 1, vin.length)
+      let rightPre = pre.slice(leftVin.length + 1, pre.length)
+      if (leftVin.length === 0 && rightVin.length === 0) {        
+        return
+      }
+      resetNode(newNode,leftPre, leftVin, 'left')
+      resetNode(newNode,rightPre, rightVin, 'right')
+    }
+    console.log(reConstructBinaryTree(pre, vin))
+  </script>
+</body>
+
+</html>
