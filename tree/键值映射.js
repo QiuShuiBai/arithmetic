@@ -1,14 +1,14 @@
-// https://leetcode-cn.com/problems/implement-trie-prefix-tree/
+// https://leetcode-cn.com/problems/map-sum-pairs/
 
 function MapSum() {
   this.root = {}
 }
 
-/**
- * Inserts a word into the trie. 
- * @param {string} word
- * @return {void}
- */
+/** 
+* @param {string} word 
+* @param {number} num
+* @return {void}
+*/
 MapSum.prototype.insert = function (word, num) {
   let obj = this.root
   for (let i = 0, len = word.length; i < len; i++) {
@@ -21,6 +21,10 @@ MapSum.prototype.insert = function (word, num) {
   obj.num = num
 }
 
+/** 
+ * @param {string} word
+ * @return {number}
+ */
 MapSum.prototype.sum = function(word) {
   let obj = this.root
   for (let i = 0, len = word.length; i < len; i++) {
@@ -45,11 +49,10 @@ function searchNum(obj) {
 
 
 /** 
- * Your Trie object will be instantiated and called as such:
- * var obj = new Trie()
- * obj.insert(word)
- * var param_2 = obj.search(word)
- * var param_3 = obj.startsWith(prefix)
+ * Your MapSum object will be instantiated and called as such:
+ * var obj = new MapSum()
+ * obj.insert(key,val)
+ * var param_2 = obj.sum(prefix)
  */
 
 const obj = new MapSum()
